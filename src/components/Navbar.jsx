@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import navImg from '../assets/image.png';
+import navImg from '../assets/Image.png';
 
 export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

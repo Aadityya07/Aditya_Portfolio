@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* Allow text selection everywhere */
+html,
+body,
+#root,
+* {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Anton', sans-serif;
+
+  --color-theme-bg: var(--bg-color);
+  --color-theme-text: var(--text-main);
+  --color-theme-muted: var(--text-muted);
+  --color-theme-accent: var(--accent);
+  --color-theme-card: var(--card-bg);
+  --color-theme-nav: var(--nav-bg);
+
+  --animate-wave: wave 1.5s infinite;
+  --animate-static: staticNoise 0.2s steps(4) infinite;
+  /* Added slow ping for the Available for work dot */
+  --animate-slow-ping: slowPing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(0.0deg); }
+    10% { transform: rotate(14.0deg); }
+    20% { transform: rotate(-8.0deg); }
+    30% { transform: rotate(14.0deg); }
+    40% { transform: rotate(-4.0deg); }
+    50% { transform: rotate(10.0deg); }
+    60% { transform: rotate(0.0deg); }
+  }
+
+  @keyframes staticNoise {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2%, -2%); }
+    20% { transform: translate(-4%, 2%); }
+    30% { transform: translate(2%, -4%); }
+    40% { transform: translate(-2%, 4%); }
+    50% { transform: translate(-4%, 2%); }
+    60% { transform: translate(4%, 0%); }
+    70% { transform: translate(0%, 3%); }
+    80% { transform: translate(1%, 6%); }
+    90% { transform: translate(-2%, 2%); }
+  }
+
+  @keyframes slowPing {
+    0% { transform: scale(1); opacity: 1; }
+    70%, 100% { transform: scale(3.5); opacity: 0; }
+  }
+}
+
+/* ... Keep the rest of your index.css exactly the same ... */
+
+:root {
+  --bg-color: #333333; /* Exact Deep Charcoal Hex */
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  --accent: #d9ff66;
+  --card-bg: #222222;
+  --nav-bg: rgba(20, 20, 20, 0.75);
+  --noise-opacity: 0.04; /* 4% for subtle matte texture */
+}
+
+body.light {
+  --bg-color: #e5e7eb;
+  --text-main: #000000;
+  --text-muted: #4b5563;
+  --accent: #2563eb;
+  --card-bg: rgba(255, 255, 255, 0.6); 
+  --nav-bg: rgba(255, 255, 255, 0.6);
+  --noise-opacity: 0.04;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tactile Film Noise - Placed over the canvas for a matte finish */
+.noise-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw; 
+  height: 100vh;
+  pointer-events: none; /* Ensures you can still click things underneath */
+  z-index: 9999; /* Sits on top to texture the whole site */
+  opacity: var(--noise-opacity);
+  /* SVG Fractal Noise for a hyper-realistic, non-repeating film grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Cinematic Matte Vignette */
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998; /* Sits just below the noise */
+  /* Very subtle darkening around the extreme edges to remove the "flat digital" look */
+  background: radial-gradient(circle at center, transparent 50%, rgba(20, 20, 20, 0.3) 120%);
+}
+
+/* Darker Vignette - Pushed to background */
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Changed to 1 so it stays behind your content */
+  background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.85) 150%);
+}
+
+.glass-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Custom class for outline text */
+.text-outline-stroke {
+  -webkit-text-stroke: 2px var(--text-main);
+  color: transparent;
+}
+
+/* MOBILE-ONLY: thinner outline stroke for small headings */
+@media (max-width: 767px) {
+  .text-outline-stroke {
+    -webkit-text-stroke-width: 1.5px;
+  }
+}
